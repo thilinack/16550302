@@ -1,0 +1,982 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ChngMgtModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="Applications">
+          <Key>
+            <PropertyRef Name="Application_ID" />
+          </Key>
+          <Property Name="Application_ID" Type="int" Nullable="false" />
+          <Property Name="Application" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Change">
+          <Key>
+            <PropertyRef Name="Change_ID" />
+          </Key>
+          <Property Name="Change_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Creation_Date" Type="varchar(max)" />
+          <Property Name="Last_Update" Type="datetime" />
+          <Property Name="Priotity" Type="nchar" MaxLength="10" />
+          <Property Name="Req_ID" Type="int" Nullable="false" />
+          <Property Name="App_ID" Type="int" />
+          <Property Name="Auth_ID" Type="int" />
+          <Property Name="QA_ID" Type="int" />
+          <Property Name="Dev_ID" Type="int" />
+          <Property Name="Deplopy_ID" Type="int" />
+          <Property Name="UAT_ID" Type="int" />
+          <Property Name="App_Date" Type="datetime" />
+          <Property Name="QA_Date" Type="datetime" />
+          <Property Name="Status" Type="varchar(max)" Nullable="false" />
+          <Property Name="Req_Type" Type="int" Nullable="false" />
+          <Property Name="Application" Type="int" Nullable="false" />
+          <Property Name="BA_ID" Type="int" />
+          <Property Name="BA_Date" Type="datetime" />
+          <Property Name="Summary" Type="varchar(max)" />
+          <Property Name="Auth_Date" Type="varchar(max)" />
+          <Property Name="Dev_Assign" Type="int" />
+          <Property Name="Dev_Assign_Date" Type="varchar" MaxLength="50" />
+          <Property Name="Dev_Date" Type="varchar" MaxLength="50" />
+          <Property Name="Deploy_Date" Type="varchar" MaxLength="50" />
+          <Property Name="UAT_Date" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Change_Comment">
+          <Key>
+            <PropertyRef Name="Comment_ID" />
+          </Key>
+          <Property Name="Comment_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Change_ID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="varchar(max)" />
+          <Property Name="Date" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Change_Type">
+          <Key>
+            <PropertyRef Name="ChangeType_ID" />
+          </Key>
+          <Property Name="ChangeType_ID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChngMgt_Access">
+          <Key>
+            <PropertyRef Name="Access_ID" />
+          </Key>
+          <Property Name="Access_ID" Type="int" Nullable="false" />
+          <Property Name="User_ID" Type="nchar" MaxLength="10" />
+          <Property Name="Access_Level_ID" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="Dep_ID" />
+          </Key>
+          <Property Name="Dep_ID" Type="int" Nullable="false" />
+          <Property Name="Department" Type="varchar(max)" />
+          <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User_Request">
+          <Key>
+            <PropertyRef Name="UserReq_ID" />
+          </Key>
+          <Property Name="UserReq_ID" Type="int" Nullable="false" />
+          <Property Name="Req_By" Type="int" />
+          <Property Name="Req_Date" Type="datetime" />
+          <Property Name="Approved_By" Type="int" />
+          <Property Name="Approved_Date" Type="datetime" />
+          <Property Name="Created_By" Type="int" />
+          <Property Name="Created_Date" Type="datetime" />
+          <Property Name="Confirmed_By" Type="int" />
+          <Property Name="Confirmed_Date" Type="datetime" />
+          <Property Name="Application_ID" Type="int" />
+          <Property Name="Access_level" Type="varchar" MaxLength="50" />
+          <Property Name="Comment" Type="varchar(max)" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="int" Nullable="false" />
+          <Property Name="User_Name" Type="varchar(max)" />
+          <Property Name="User_Level" Type="int" />
+          <Property Name="Department_ID" Type="int" />
+          <Property Name="Password" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Designation" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Change_Application">
+          <End Role="Applications" Type="Self.Applications" Multiplicity="1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="Application_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="Application" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_Approve">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="App_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_BA">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="BA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_ChangeType">
+          <End Role="Change_Type" Type="Self.Change_Type" Multiplicity="1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Change_Type">
+              <PropertyRef Name="ChangeType_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="Req_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_Comment_ChangeID">
+          <End Role="Change" Type="Self.Change" Multiplicity="1" />
+          <End Role="Change_Comment" Type="Self.Change_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Change">
+              <PropertyRef Name="Change_ID" />
+            </Principal>
+            <Dependent Role="Change_Comment">
+              <PropertyRef Name="Change_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_Comment_UserID">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Change_Comment" Type="Self.Change_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change_Comment">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_Deploy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="Deplopy_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_Dev">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="Dev_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_DevAssign">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="Dev_Assign" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_QA">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="QA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_UAT">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="UAT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChngMgt_Access_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ChngMgt_Access" Type="Self.ChngMgt_Access" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="ChngMgt_Access">
+              <PropertyRef Name="Access_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Request_Application">
+          <End Role="Applications" Type="Self.Applications" Multiplicity="0..1" />
+          <End Role="User_Request" Type="Self.User_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="Application_ID" />
+            </Principal>
+            <Dependent Role="User_Request">
+              <PropertyRef Name="Application_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Request_ApprovedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="User_Request" Type="Self.User_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="User_Request">
+              <PropertyRef Name="Approved_By" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Request_ConfirmedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="User_Request" Type="Self.User_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="User_Request">
+              <PropertyRef Name="Confirmed_By" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Request_CreatedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="User_Request" Type="Self.User_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="User_Request">
+              <PropertyRef Name="Created_By" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Request_ReqBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="User_Request" Type="Self.User_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="User_Request">
+              <PropertyRef Name="Req_By" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="Dep_ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Department_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ChngMgtModelStoreContainer">
+          <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Change" EntityType="Self.Change" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Change_Comment" EntityType="Self.Change_Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Change_Type" EntityType="Self.Change_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChngMgt_Access" EntityType="Self.ChngMgt_Access" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Request" EntityType="Self.User_Request" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Change_Application" Association="Self.FK_Change_Application">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_Approve" Association="Self.FK_Change_Approve">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_BA" Association="Self.FK_Change_BA">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_ChangeType" Association="Self.FK_Change_ChangeType">
+            <End Role="Change_Type" EntitySet="Change_Type" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_Comment_ChangeID" Association="Self.FK_Change_Comment_ChangeID">
+            <End Role="Change" EntitySet="Change" />
+            <End Role="Change_Comment" EntitySet="Change_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_Comment_UserID" Association="Self.FK_Change_Comment_UserID">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change_Comment" EntitySet="Change_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_Deploy" Association="Self.FK_Change_Deploy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_Dev" Association="Self.FK_Change_Dev">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_DevAssign" Association="Self.FK_Change_DevAssign">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_QA" Association="Self.FK_Change_QA">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_UAT" Association="Self.FK_Change_UAT">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Change" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChngMgt_Access_Users" Association="Self.FK_ChngMgt_Access_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ChngMgt_Access" EntitySet="ChngMgt_Access" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Request_Application" Association="Self.FK_User_Request_Application">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="User_Request" EntitySet="User_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Request_ApprovedBy" Association="Self.FK_User_Request_ApprovedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="User_Request" EntitySet="User_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Request_ConfirmedBy" Association="Self.FK_User_Request_ConfirmedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="User_Request" EntitySet="User_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Request_CreatedBy" Association="Self.FK_User_Request_CreatedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="User_Request" EntitySet="User_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Request_ReqBy" Association="Self.FK_User_Request_ReqBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="User_Request" EntitySet="User_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Departments" Association="Self.FK_Users_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ChngMgtModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="Application_ID" />
+          </Key>
+          <Property Name="Application_ID" Type="Int32" Nullable="false" />
+          <Property Name="Application1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Changes" Relationship="Self.FK_Change_Application" FromRole="Applications" ToRole="Change" />
+          <NavigationProperty Name="User_Request" Relationship="Self.FK_User_Request_Application" FromRole="Applications" ToRole="User_Request" />
+        </EntityType>
+        <EntityType Name="Change">
+          <Key>
+            <PropertyRef Name="Change_ID" />
+          </Key>
+          <Property Name="Change_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Creation_Date" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Last_Update" Type="DateTime" Precision="3" />
+          <Property Name="Priotity" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Req_ID" Type="Int32" Nullable="false" />
+          <Property Name="App_ID" Type="Int32" />
+          <Property Name="Auth_ID" Type="Int32" />
+          <Property Name="QA_ID" Type="Int32" />
+          <Property Name="Dev_ID" Type="Int32" />
+          <Property Name="Deplopy_ID" Type="Int32" />
+          <Property Name="UAT_ID" Type="Int32" />
+          <Property Name="App_Date" Type="DateTime" Precision="3" />
+          <Property Name="QA_Date" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Req_Type" Type="Int32" Nullable="false" />
+          <Property Name="Application" Type="Int32" Nullable="false" />
+          <Property Name="BA_ID" Type="Int32" />
+          <Property Name="BA_Date" Type="DateTime" Precision="3" />
+          <Property Name="Summary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Auth_Date" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Dev_Assign" Type="Int32" />
+          <Property Name="Dev_Assign_Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Dev_Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Deploy_Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UAT_Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Application1" Relationship="Self.FK_Change_Application" FromRole="Change" ToRole="Applications" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Change_Approve" FromRole="Change" ToRole="Users" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Change_BA" FromRole="Change" ToRole="Users" />
+          <NavigationProperty Name="Change_Type" Relationship="Self.FK_Change_ChangeType" FromRole="Change" ToRole="Change_Type" />
+          <NavigationProperty Name="Change_Comment" Relationship="Self.FK_Change_Comment_ChangeID" FromRole="Change" ToRole="Change_Comment" />
+          <NavigationProperty Name="User2" Relationship="Self.FK_Change_Deploy" FromRole="Change" ToRole="Users" />
+          <NavigationProperty Name="User3" Relationship="Self.FK_Change_Dev" FromRole="Change" ToRole="Users" />
+          <NavigationProperty Name="User4" Relationship="Self.FK_Change_DevAssign" FromRole="Change" ToRole="Users" />
+          <NavigationProperty Name="User5" Relationship="Self.FK_Change_QA" FromRole="Change" ToRole="Users" />
+          <NavigationProperty Name="User6" Relationship="Self.FK_Change_UAT" FromRole="Change" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Change_Comment">
+          <Key>
+            <PropertyRef Name="Comment_ID" />
+          </Key>
+          <Property Name="Comment_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Change_ID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Change" Relationship="Self.FK_Change_Comment_ChangeID" FromRole="Change_Comment" ToRole="Change" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Change_Comment_UserID" FromRole="Change_Comment" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Change_Type">
+          <Key>
+            <PropertyRef Name="ChangeType_ID" />
+          </Key>
+          <Property Name="ChangeType_ID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Changes" Relationship="Self.FK_Change_ChangeType" FromRole="Change_Type" ToRole="Change" />
+        </EntityType>
+        <EntityType Name="ChngMgt_Access">
+          <Key>
+            <PropertyRef Name="Access_ID" />
+          </Key>
+          <Property Name="Access_ID" Type="Int32" Nullable="false" />
+          <Property Name="User_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Access_Level_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.FK_ChngMgt_Access_Users" FromRole="ChngMgt_Access" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Dep_ID" />
+          </Key>
+          <Property Name="Dep_ID" Type="Int32" Nullable="false" />
+          <Property Name="Department1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Departments" FromRole="Departments" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User_Request">
+          <Key>
+            <PropertyRef Name="UserReq_ID" />
+          </Key>
+          <Property Name="UserReq_ID" Type="Int32" Nullable="false" />
+          <Property Name="Req_By" Type="Int32" />
+          <Property Name="Req_Date" Type="DateTime" Precision="3" />
+          <Property Name="Approved_By" Type="Int32" />
+          <Property Name="Approved_Date" Type="DateTime" Precision="3" />
+          <Property Name="Created_By" Type="Int32" />
+          <Property Name="Created_Date" Type="DateTime" Precision="3" />
+          <Property Name="Confirmed_By" Type="Int32" />
+          <Property Name="Confirmed_Date" Type="DateTime" Precision="3" />
+          <Property Name="Application_ID" Type="Int32" />
+          <Property Name="Access_level" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Application" Relationship="Self.FK_User_Request_Application" FromRole="User_Request" ToRole="Applications" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Request_ApprovedBy" FromRole="User_Request" ToRole="Users" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_User_Request_ConfirmedBy" FromRole="User_Request" ToRole="Users" />
+          <NavigationProperty Name="User2" Relationship="Self.FK_User_Request_CreatedBy" FromRole="User_Request" ToRole="Users" />
+          <NavigationProperty Name="User3" Relationship="Self.FK_User_Request_ReqBy" FromRole="User_Request" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="Int32" Nullable="false" />
+          <Property Name="User_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="User_Level" Type="Int32" />
+          <Property Name="Department_ID" Type="Int32" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Designation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Changes" Relationship="Self.FK_Change_Approve" FromRole="Users" ToRole="Change" />
+          <NavigationProperty Name="Changes1" Relationship="Self.FK_Change_BA" FromRole="Users" ToRole="Change" />
+          <NavigationProperty Name="Changes2" Relationship="Self.FK_Change_Deploy" FromRole="Users" ToRole="Change" />
+          <NavigationProperty Name="Changes3" Relationship="Self.FK_Change_Dev" FromRole="Users" ToRole="Change" />
+          <NavigationProperty Name="Changes4" Relationship="Self.FK_Change_DevAssign" FromRole="Users" ToRole="Change" />
+          <NavigationProperty Name="Changes5" Relationship="Self.FK_Change_QA" FromRole="Users" ToRole="Change" />
+          <NavigationProperty Name="Changes6" Relationship="Self.FK_Change_UAT" FromRole="Users" ToRole="Change" />
+          <NavigationProperty Name="Change_Comment" Relationship="Self.FK_Change_Comment_UserID" FromRole="Users" ToRole="Change_Comment" />
+          <NavigationProperty Name="ChngMgt_Access" Relationship="Self.FK_ChngMgt_Access_Users" FromRole="Users" ToRole="ChngMgt_Access" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_Users_Departments" FromRole="Users" ToRole="Departments" />
+          <NavigationProperty Name="User_Request" Relationship="Self.FK_User_Request_ApprovedBy" FromRole="Users" ToRole="User_Request" />
+          <NavigationProperty Name="User_Request1" Relationship="Self.FK_User_Request_ConfirmedBy" FromRole="Users" ToRole="User_Request" />
+          <NavigationProperty Name="User_Request2" Relationship="Self.FK_User_Request_CreatedBy" FromRole="Users" ToRole="User_Request" />
+          <NavigationProperty Name="User_Request3" Relationship="Self.FK_User_Request_ReqBy" FromRole="Users" ToRole="User_Request" />
+        </EntityType>
+        <Association Name="FK_Change_Application">
+          <End Role="Applications" Type="Self.Application" Multiplicity="1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="Application_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="Application" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Request_Application">
+          <End Role="Applications" Type="Self.Application" Multiplicity="0..1" />
+          <End Role="User_Request" Type="Self.User_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="Application_ID" />
+            </Principal>
+            <Dependent Role="User_Request">
+              <PropertyRef Name="Application_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_Approve">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="App_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_BA">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="BA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_ChangeType">
+          <End Role="Change_Type" Type="Self.Change_Type" Multiplicity="1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Change_Type">
+              <PropertyRef Name="ChangeType_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="Req_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_Comment_ChangeID">
+          <End Role="Change" Type="Self.Change" Multiplicity="1" />
+          <End Role="Change_Comment" Type="Self.Change_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Change">
+              <PropertyRef Name="Change_ID" />
+            </Principal>
+            <Dependent Role="Change_Comment">
+              <PropertyRef Name="Change_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_Deploy">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="Deplopy_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_Dev">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="Dev_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_DevAssign">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="Dev_Assign" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_QA">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="QA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_UAT">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Change" Type="Self.Change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change">
+              <PropertyRef Name="UAT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Change_Comment_UserID">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Change_Comment" Type="Self.Change_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Change_Comment">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChngMgt_Access_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="ChngMgt_Access" Type="Self.ChngMgt_Access" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="ChngMgt_Access">
+              <PropertyRef Name="Access_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Departments">
+          <End Role="Departments" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="Dep_ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Department_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Request_ApprovedBy">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User_Request" Type="Self.User_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="User_Request">
+              <PropertyRef Name="Approved_By" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Request_ConfirmedBy">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User_Request" Type="Self.User_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="User_Request">
+              <PropertyRef Name="Confirmed_By" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Request_CreatedBy">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User_Request" Type="Self.User_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="User_Request">
+              <PropertyRef Name="Created_By" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Request_ReqBy">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User_Request" Type="Self.User_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="User_Request">
+              <PropertyRef Name="Req_By" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ChngMgtEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Applications" EntityType="Self.Application" />
+          <EntitySet Name="Changes" EntityType="Self.Change" />
+          <EntitySet Name="Change_Comment" EntityType="Self.Change_Comment" />
+          <EntitySet Name="Change_Type" EntityType="Self.Change_Type" />
+          <EntitySet Name="ChngMgt_Access" EntityType="Self.ChngMgt_Access" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="User_Request" EntityType="Self.User_Request" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Change_Application" Association="Self.FK_Change_Application">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Request_Application" Association="Self.FK_User_Request_Application">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="User_Request" EntitySet="User_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_Approve" Association="Self.FK_Change_Approve">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_BA" Association="Self.FK_Change_BA">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_ChangeType" Association="Self.FK_Change_ChangeType">
+            <End Role="Change_Type" EntitySet="Change_Type" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_Comment_ChangeID" Association="Self.FK_Change_Comment_ChangeID">
+            <End Role="Change" EntitySet="Changes" />
+            <End Role="Change_Comment" EntitySet="Change_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_Deploy" Association="Self.FK_Change_Deploy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_Dev" Association="Self.FK_Change_Dev">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_DevAssign" Association="Self.FK_Change_DevAssign">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_QA" Association="Self.FK_Change_QA">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_UAT" Association="Self.FK_Change_UAT">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change" EntitySet="Changes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Change_Comment_UserID" Association="Self.FK_Change_Comment_UserID">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Change_Comment" EntitySet="Change_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChngMgt_Access_Users" Association="Self.FK_ChngMgt_Access_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ChngMgt_Access" EntitySet="ChngMgt_Access" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Departments" Association="Self.FK_Users_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Request_ApprovedBy" Association="Self.FK_User_Request_ApprovedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="User_Request" EntitySet="User_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Request_ConfirmedBy" Association="Self.FK_User_Request_ConfirmedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="User_Request" EntitySet="User_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Request_CreatedBy" Association="Self.FK_User_Request_CreatedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="User_Request" EntitySet="User_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Request_ReqBy" Association="Self.FK_User_Request_ReqBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="User_Request" EntitySet="User_Request" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ChngMgtModelStoreContainer" CdmEntityContainer="ChngMgtEntities1">
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="ChngMgtModel.Application">
+              <MappingFragment StoreEntitySet="Applications">
+                <ScalarProperty Name="Application_ID" ColumnName="Application_ID" />
+                <ScalarProperty Name="Application1" ColumnName="Application" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Changes">
+            <EntityTypeMapping TypeName="ChngMgtModel.Change">
+              <MappingFragment StoreEntitySet="Change">
+                <ScalarProperty Name="Change_ID" ColumnName="Change_ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Creation_Date" ColumnName="Creation_Date" />
+                <ScalarProperty Name="Last_Update" ColumnName="Last_Update" />
+                <ScalarProperty Name="Priotity" ColumnName="Priotity" />
+                <ScalarProperty Name="Req_ID" ColumnName="Req_ID" />
+                <ScalarProperty Name="App_ID" ColumnName="App_ID" />
+                <ScalarProperty Name="Auth_ID" ColumnName="Auth_ID" />
+                <ScalarProperty Name="QA_ID" ColumnName="QA_ID" />
+                <ScalarProperty Name="Dev_ID" ColumnName="Dev_ID" />
+                <ScalarProperty Name="Deplopy_ID" ColumnName="Deplopy_ID" />
+                <ScalarProperty Name="UAT_ID" ColumnName="UAT_ID" />
+                <ScalarProperty Name="App_Date" ColumnName="App_Date" />
+                <ScalarProperty Name="QA_Date" ColumnName="QA_Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Req_Type" ColumnName="Req_Type" />
+                <ScalarProperty Name="Application" ColumnName="Application" />
+                <ScalarProperty Name="BA_ID" ColumnName="BA_ID" />
+                <ScalarProperty Name="BA_Date" ColumnName="BA_Date" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="Auth_Date" ColumnName="Auth_Date" />
+                <ScalarProperty Name="Dev_Assign" ColumnName="Dev_Assign" />
+                <ScalarProperty Name="Dev_Assign_Date" ColumnName="Dev_Assign_Date" />
+                <ScalarProperty Name="Dev_Date" ColumnName="Dev_Date" />
+                <ScalarProperty Name="Deploy_Date" ColumnName="Deploy_Date" />
+                <ScalarProperty Name="UAT_Date" ColumnName="UAT_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Change_Comment">
+            <EntityTypeMapping TypeName="ChngMgtModel.Change_Comment">
+              <MappingFragment StoreEntitySet="Change_Comment">
+                <ScalarProperty Name="Comment_ID" ColumnName="Comment_ID" />
+                <ScalarProperty Name="Change_ID" ColumnName="Change_ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Change_Type">
+            <EntityTypeMapping TypeName="ChngMgtModel.Change_Type">
+              <MappingFragment StoreEntitySet="Change_Type">
+                <ScalarProperty Name="ChangeType_ID" ColumnName="ChangeType_ID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChngMgt_Access">
+            <EntityTypeMapping TypeName="ChngMgtModel.ChngMgt_Access">
+              <MappingFragment StoreEntitySet="ChngMgt_Access">
+                <ScalarProperty Name="Access_ID" ColumnName="Access_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Access_Level_ID" ColumnName="Access_Level_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="ChngMgtModel.Department">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="Dep_ID" ColumnName="Dep_ID" />
+                <ScalarProperty Name="Department1" ColumnName="Department" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Request">
+            <EntityTypeMapping TypeName="ChngMgtModel.User_Request">
+              <MappingFragment StoreEntitySet="User_Request">
+                <ScalarProperty Name="UserReq_ID" ColumnName="UserReq_ID" />
+                <ScalarProperty Name="Req_By" ColumnName="Req_By" />
+                <ScalarProperty Name="Req_Date" ColumnName="Req_Date" />
+                <ScalarProperty Name="Approved_By" ColumnName="Approved_By" />
+                <ScalarProperty Name="Approved_Date" ColumnName="Approved_Date" />
+                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+                <ScalarProperty Name="Created_Date" ColumnName="Created_Date" />
+                <ScalarProperty Name="Confirmed_By" ColumnName="Confirmed_By" />
+                <ScalarProperty Name="Confirmed_Date" ColumnName="Confirmed_Date" />
+                <ScalarProperty Name="Application_ID" ColumnName="Application_ID" />
+                <ScalarProperty Name="Access_level" ColumnName="Access_level" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ChngMgtModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+                <ScalarProperty Name="User_Level" ColumnName="User_Level" />
+                <ScalarProperty Name="Department_ID" ColumnName="Department_ID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

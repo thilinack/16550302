@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cee908a2afd54bac9833c7c6cf738d23" Name="Diagram1" ZoomLevel="114">
+        <EntityTypeShape EntityType="ChngMgtModel.Application" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChngMgtModel.Change" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChngMgtModel.Change_Comment" Width="1.5" PointX="10.5" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChngMgtModel.Change_Type" Width="1.5" PointX="1.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChngMgtModel.ChngMgt_Access" Width="1.5" PointX="5.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChngMgtModel.Department" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChngMgtModel.User_Request" Width="1.5" PointX="8.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChngMgtModel.User" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_Application" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_User_Request_Application" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_Approve" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_BA" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_ChangeType" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_Comment_ChangeID" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_Deploy" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_Dev" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_DevAssign" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_QA" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_UAT" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Change_Comment_UserID" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_ChngMgt_Access_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_Users_Departments" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_User_Request_ApprovedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_User_Request_ConfirmedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_User_Request_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="ChngMgtModel.FK_User_Request_ReqBy" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
