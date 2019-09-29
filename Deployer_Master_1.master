@@ -1,0 +1,401 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Deployer_Master_1.master.cs" Inherits="Deployer_Master_1" %>
+
+<%@ Register TagPrefix="ajaxToolkit" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head runat="server">
+    <title>Melstacorp</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+
+
+
+
+<head>
+
+
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="author" content="Thilina Kelaniyage">
+
+    <!-- The styles -->
+    <link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
+
+    <link href="css/charisma-app.css" rel="stylesheet">
+    <link href='bower_components/fullcalendar/dist/fullcalendar.css' rel='stylesheet'>
+    <link href='bower_components/fullcalendar/dist/fullcalendar.print.css' rel='stylesheet' media='print'>
+    <link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
+    <link href='bower_components/colorbox/example3/colorbox.css' rel='stylesheet'>
+    <link href='bower_components/responsive-tables/responsive-tables.css' rel='stylesheet'>
+    <link href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' rel='stylesheet'>
+    <link href='css/jquery.noty.css' rel='stylesheet'>
+    <link href='css/noty_theme_default.css' rel='stylesheet'>
+    <link href='css/elfinder.min.css' rel='stylesheet'>
+    <link href='css/elfinder.theme.css' rel='stylesheet'>
+    <link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
+    <link href='css/uploadify.css' rel='stylesheet'>
+    <link href='css/animate.min.css' rel='stylesheet'>
+
+    <!-- jQuery -->
+    <script src="bower_components/jquery/jquery.min.js"></script>
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- The fav icon -->
+    <link rel="shortcut icon" href="img/Melsta_1.png">
+</head>
+
+<body>
+    
+    <!-- topbar starts -->
+    <div class="navbar navbar-default" role="navigation">
+
+        <div class="navbar-inner">
+            <button type="button" class="navbar-toggle pull-left animated flip">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="">
+                <img alt="Melsta Logo" src="img/Melsta_1.png" class="hidden-xs" />
+                <span style="font-family: Arial">Melstacorp</span></a>
+            </a>&nbsp;<!-- user dropdown starts --><div class="btn-group pull-right">
+                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-user"></i><span class="hidden-sm hidden-xs">
+                        <asp:Label ID="Label_User" runat="server" Text="User"></asp:Label></span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Profile</a></li>
+                     <li><a href="#" data-toggle="modal" data-target="#change_pass">Change Password</a></li>
+                    <li class="divider"></li>
+                    <li><a href="Login_1.aspx">Logout</a></li>
+                </ul>
+            </div>
+            <!-- user dropdown ends -->
+
+            <!-- theme selector starts -->
+            <div class="btn-group pull-right theme-container">
+                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-tint"></i><span
+                        class="hidden-sm hidden-xs">Change Skin</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="themes">
+                    <li><a data-value="classic" href="#"><i class="whitespace"></i>Classic</a></li>
+                    <li><a data-value="cerulean" href="#"><i class="whitespace"></i>Cerulean</a></li>
+                    <li><a data-value="cyborg" href="#"><i class="whitespace"></i>Cyborg</a></li>
+                    <li><a data-value="simplex" href="#"><i class="whitespace"></i>Simplex</a></li>
+                    <li><a data-value="darkly" href="#"><i class="whitespace"></i>Darkly</a></li>
+                    <li><a data-value="lumen" href="#"><i class="whitespace"></i>Lumen</a></li>
+                    <li><a data-value="slate" href="#"><i class="whitespace"></i>Slate</a></li>
+                    <li><a data-value="spacelab" href="#"><i class="whitespace"></i>Spacelab</a></li>
+                    <li><a data-value="united" href="#"><i class="whitespace"></i>United</a></li>
+                </ul>
+            </div>
+            <!-- theme selector ends -->
+
+            <ul class="collapse navbar-collapse nav navbar-nav top-menu">
+                <li><a href="http://www.melsta.com/"><i class="glyphicon glyphicon-globe"></i>Visit Site</a></li>
+
+                <li>
+                    <form class="navbar-search pull-left">
+                        <input placeholder="Search" class="search-query form-control col-md-10" name="query"
+                            type="text">
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <!-- topbar ends -->
+    <div class="ch-container">
+        <div class="row">
+
+            <!-- left menu starts -->
+            <div class="col-sm-2 col-lg-2">
+                <div class="sidebar-nav">
+                    <div class="nav-canvas">
+                        <div class="nav-sm nav nav-stacked">
+                        </div>
+                        <ul class="nav nav-pills nav-stacked main-menu">
+                            <li class="nav-header">Main</li>
+                            <li><a class="ajax-link" href="Deployer_Dash_1.aspx"><i class="glyphicon glyphicon-dashboard"></i><span>&nbsp Dashboard</span></a>
+                            </li>
+                            <li><a class="ajax-link" href="Deployer_Pending_Dep_1.aspx"><i class="glyphicon glyphicon-open-file"></i><span>&nbsp Pending Deployements</span></a>
+                            </li>
+
+                            <li><a class="ajax-link" href="Deployer_My_Dep_1.aspx"><i class="glyphicon glyphicon-list-alt"></i><span>&nbsp My Deployements</span></a>
+                            </li>
+
+
+                            
+                    </div>
+                </div>
+            </div>
+            <!--/span-->
+            <!-- left menu ends -->
+
+            <noscript>
+            <div class="alert alert-block col-md-12">
+                <h4 class="alert-heading">Warning!</h4>
+
+                <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a>
+                    enabled to use this site.</p>
+            </div>
+        </noscript>
+
+            <div id="content" class="col-lg-10 col-sm-10">
+                <!-- content starts -->
+                <div>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a>
+                                <i class="glyphicon glyphicon-home"></i>
+                                <a href="Home.aspx">Home</a></a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <asp:Label ID="crumble1" runat="server" Text=""></asp:Label></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class=" row">
+                    <div class="col-md-3 col-sm-3 col-xs-6">
+                        <a data-toggle="tooltip" class="well top-block" href="#">
+                            <i class="glyphicon glyphicon-user blue"></i>
+
+                            <div style="font-weight: bold; text-decoration: underline;">Employee</div>
+                            <asp:Label ID="lblEmployee" runat="server" Text=""></asp:Label>
+
+                        </a>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-6">
+                        <a data-toggle="tooltip" class="well top-block" href="#">
+                            <i class="glyphicon glyphicon-star green"></i>
+
+                            <div style="font-weight: bold; text-decoration: underline;">Emp No</div>
+                            <asp:Label ID="lblEmpNo" runat="server" Text=""></asp:Label>
+
+
+                        </a>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-6">
+                        <a data-toggle="tooltip" class="well top-block" href="#">
+                            <img alt="Dep logo" src="img/7a6aaff0-c81b-4819-9814-56592091fba9 (2).png" class="hidden-xs" />
+
+                            <div style="font-weight: bold; text-decoration: underline;">Department</div>
+                            <asp:Label ID="lblDep" runat="server" Text=""></asp:Label>
+
+                        </a>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-6">
+                        <a data-toggle="tooltip" class="well top-block" href="#">
+                            <img alt="des Logo" src="img/des-removebg (1).png" class="hidden-xs" />
+
+                            <div style="font-weight: bold; text-decoration: underline;">Designation</div>
+                            <asp:Label ID="lblDesignation" runat="server" Text=""></asp:Label>
+
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="box col-md-12">
+                        <div class="box-inner">
+                            <div class="box-header well">
+                                <h2><i class="glyphicon glyphicon-info-sign"></i>
+                                    <asp:Label ID="Label_Heading" runat="server" Text="Label"></asp:Label></h2>
+
+                                <div class="box-icon">
+
+                                    <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                        class="glyphicon glyphicon-chevron-up"></i></a>
+                                    <a href="#" class="btn btn-close btn-round btn-default"><i
+                                        class="glyphicon glyphicon-remove"></i></a>
+                                </div>
+                            </div>
+                            <div class="box-content row">
+                                <div class="col-lg-12 col-md-12">
+                                    </b></p>
+                    
+    
+        <form id="form1" runat="server">
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+            <div>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+
+      <div class="modal fade" id="change_pass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+           
+               
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h3>Change Password</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box-content">
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <td>Old Password
+                        </td>
+                                    <td>
+                        <asp:TextBox runat="server" ID="TxtPWD" type="password" class="form-control" placeholder="Old Password"/>
+
+                                        
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>New Password
+                        </td>
+                                    <td>
+                                        <asp:TextBox runat="server" ID="NewPWD" type="password" class="form-control" placeholder="New Password"/>
+
+                                        
+                                    </td>
+                    </tr>
+                                <tr>
+                                    <td>Re-Type New Password
+                        </td>
+                                    <td>
+                                        <asp:TextBox runat="server" ID="NewPWD2" type="password" class="form-control" placeholder="New Password"/>
+
+
+                                    </td>
+                    </tr>
+
+                    </table>
+                            <div id ="loginalert" runat ="server" class="alert alert-info">
+                            <asp:Label ID="LblStatus" runat="server" Text=""></asp:Label>
+                                </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                   
+                    <asp:Button ID="BtnChangePWD" runat="server" class="btn btn-success" Text="Save changes" data-toggle="modal" OnClientClick="return false;" data-target="#myModal2" />
+                </div>
+            </div>
+        </div>
+         
+    </div>
+
+<div class="modal fade" id="myModal2" tabindex="1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                   <div class="alert alert-warning">
+                  
+                    <h5>Warning</h5> 
+                </div>
+                    
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to change password? </p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                    <asp:Button ID="Button2" class="btn btn-primary" runat="server" Text="Yes" onclick="ChangePWD_Click"/>
+                    
+                </div>
+            </div>
+        </div>
+    </div> 
+
+        </form>
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!--/#content.col-md-0-->
+        </div>
+        <!--/fluid-row-->
+
+
+
+        <hr>
+         
+
+
+    <footer class="row">
+        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="" target="_blank">Melstacorp PLC</a> 2015 - 2019</p>
+
+        <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
+                href="">Melstacorp</a></p>
+    </footer>
+
+</div><!--/.fluid-container-->
+
+<!-- external javascript -->
+
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- library for cookie management -->
+<script src="js/jquery.cookie.js"></script>
+<!-- calender plugin -->
+<script src='bower_components/moment/min/moment.min.js'></script>
+<script src='bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
+<!-- data table plugin -->
+<script src='js/jquery.dataTables.min.js'></script>
+
+<!-- select or dropdown enhancer -->
+<script src="bower_components/chosen/chosen.jquery.min.js"></script>
+<!-- plugin for gallery image view -->
+<script src="bower_components/colorbox/jquery.colorbox-min.js"></script>
+<!-- notification plugin -->
+<script src="js/jquery.noty.js"></script>
+<!-- library for making tables responsive -->
+<script src="bower_components/responsive-tables/responsive-tables.js"></script>
+<!-- tour plugin -->
+<script src="bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
+<!-- star rating plugin -->
+<script src="js/jquery.raty.min.js"></script>
+<!-- for iOS style toggle switch -->
+<script src="js/jquery.iphone.toggle.js"></script>
+<!-- autogrowing textarea plugin -->
+<script src="js/jquery.autogrow-textarea.js"></script>
+<!-- multiple file upload plugin -->
+<script src="js/jquery.uploadify-3.1.min.js"></script>
+<!-- history.js for cross-browser state change on ajax -->
+<script src="js/jquery.history.js"></script>
+<!-- application script for Charisma demo -->
+<script src="js/charisma.js"></script>
+
+
+</body>
+</html>
+
